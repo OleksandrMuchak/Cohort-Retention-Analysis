@@ -1,36 +1,62 @@
-# Portfolio-3: Когортний аналіз
 
+###  Portfolio Project 3: Cohort Analysis
+Conducted a cohort analysis using **Tableau** to visualize the percentage of subscribers who opened marketing emails after account creation. The dataset for this analysis was sourced from Google **BigQuery**.
+
+### Portfolio-3: Когортний аналіз
 Зробив когортний аналіз за допомогою Tableau, який демонструє відсоток підписників, які відкривають електронні листи після створення акаунту. Щоб отримати датасет для аналізу, використав дані з BigQuery.
-
-**[Датасет для аналізу](https://drive.google.com/file/d/1MnecUS4FoGDREN37fd_FCZJkIZ6G66FA/view?usp=sharing)**
 
 ---
 
-## Намір запиту
+## Purpose of the query
+This query calculates accounts and their return activity through email clicks.
 
+## Намір запиту
 Цей запит вираховує акаунти та їх повернення в кліки по листу.
 
-```sql
+'''sql
 SELECT
-   DISTINCT a.id on id_account,
-   s.date as account_created_date,
-   DATE(avid.date, INTERVAL ev.visit_date day) AS visit_date
-FROM DA.account a
-join DA.arccount_session ars on a.id = ars.account_id
--- УВАГА: Здається, в наступних двох рядках є помилка. Перевірте їх логіку.
-join DA.service s on ars.account_id = acs.account_id
-on acs.qa_session_id = s.qa_session_id
-left join DA.email_visit ev on a.id = ev.account_id
-```
+DISTINCT a.id as id_account,
+s.date as account_created_date,
+DATE_ADD(s.date, INTERVAL ev.visit_date day) AS visit_date
+from 'DA.account' a
+join 'DA.account_session' acs
+on a.id = acs.account_id
+join 'DA.session' s
+on acs.ga_session_id = s.ga_session_id
+left join 'DA.email_visit' ev
+on a.id = ev.id_account
+'''
+
+---
+
+**Dataset for analysis/[Датасет для аналізу](https://drive.google.com/file/d/1MnecUS4FoGDREN37fd_FCZJkIZ6G66FA/view?usp=sharing)**
+
+---
+
+## Analysis result
+Based on this dataset, I created a cohort analysis in Tableau. The X-axis displays the number of weeks that have passed since the account was created, while the Y-axis represents cohorts grouped by the week of account creation.
 
 ## Результат аналізу
-
 На основі цього датасету вивожу в Tableau когортний аналіз. На осі Х потрібно відобразити кількість тижнів, що минули з моменту створення акаунта в системі, а на осі Y – когорти, сформовані за тижнями створення акаунтів.
 
-**[Інтерактивний дашборд в Tableau Public](https://public.tableau.com/app/profile/oleksandr.oleksandr7187/viz/_17518209021980/sheet1)**
+---
+
+**Interactive dashboard in Tableau Public/[Інтерактивний дашборд в Tableau Public](https://public.tableau.com/app/profile/oleksandr.oleksandr7187/viz/_17518209021980/sheet1)**
+
+---
+
+## Conclusions and Recommendations
+* **Users churn quickly:** Most newly registered users leave almost immediately and do not return.
+* **Weak initial engagement:** Very few users take meaningful action during their first week after registration.
+* **The first days are critical:** If users aren’t engaged right away, they are likely to leave for good.
+
+## What to do about it?
+* **Welcome new users immediately:** As soon as someone registers, send them a series of helpful emails during their first week.
+* **Re-engage dormant users:** If someone hasn’t logged in for 2–3 weeks, send them an email with an enticing offer to encourage them to return.
+* **Give users a reason to come back:** Ask yourself—why should someone visit your platform every week?
+
 
 ## Висновки і рекомендації
-
 * **Ядро швидко йдуть:** Більшість тих, хто зареєструвався, майже одразу зникають і більше не повертаються.
 * **Початок дуже слабкий:** Майже ніхто нічого не робить у перший тиждень після реєстрації.
 * **Найважливіші – перші дні:** Якщо не зацікавити людину відразу, воно, виходячи за все, піде назавжди.
