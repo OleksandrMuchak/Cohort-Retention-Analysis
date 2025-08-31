@@ -15,28 +15,51 @@ This query calculates accounts and their return activity through email clicks.
 
 '''sql
 WITH AccountCreation AS (
+
   SELECT
+  
     acs.account_id,
+    
     MIN(s.date) AS account_created_date
+    
   FROM
+  
     `DA.account_session` AS acs
+    
   JOIN
+  
     `DA.session` AS s
+    
     ON acs.ga_session_id = s.ga_session_id
+    
   GROUP BY
+  
     acs.account_id
+    
 )
+
 SELECT
+
   a.id AS id_account,
+  
   ac.account_created_date,
+  
   ev.visit_date AS visit_date
+  
 FROM
+
   `DA.account` AS a
+  
 JOIN
+
   AccountCreation AS ac
+  
   ON a.id = ac.account_id
+  
 LEFT JOIN
+
   `DA.email_visit` AS ev
+  
   ON a.id = ev.id_account;
 '''
 
