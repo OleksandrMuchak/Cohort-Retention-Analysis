@@ -18,7 +18,6 @@ This query calculates accounts and their return activity through email clicks.
 WITH UserCohorts AS (
   SELECT
     acs.account_id,
-    -- Знаходимо найпершу дату сесії - це і є дата когорти
     MIN(s.date) AS cohort_date
   FROM
     `DA.account_session` AS acs
