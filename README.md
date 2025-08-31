@@ -14,17 +14,30 @@ This query calculates accounts and their return activity through email clicks.
 Цей запит вираховує акаунти та їх повернення в кліки по листу.
 
 '''sql
+WITH AccountCreation AS (
+  SELECT
+    acs.account_id,
+    MIN(s.date) AS account_created_date
+  FROM
+    `DA.account_session` AS acs
+  JOIN
+    `DA.session` AS s
+    ON acs.ga_session_id = s.ga_session_id
+  GROUP BY
+    acs.account_id
+)
 SELECT
-DISTINCT a.id as id_account,
-s.date as account_created_date,
-DATE_ADD(s.date, INTERVAL ev.visit_date day) AS visit_date
-from 'DA.account' a
-join 'DA.account_session' acs
-on a.id = acs.account_id
-join 'DA.session' s
-on acs.ga_session_id = s.ga_session_id
-left join 'DA.email_visit' ev
-on a.id = ev.id_account
+  a.id AS id_account,
+  ac.account_created_date,
+  ev.visit_date AS visit_date
+FROM
+  `DA.account` AS a
+JOIN
+  AccountCreation AS ac
+  ON a.id = ac.account_id
+LEFT JOIN
+  `DA.email_visit` AS ev
+  ON a.id = ev.id_account;
 '''
 
 ---
