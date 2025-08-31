@@ -14,37 +14,37 @@ This query calculates accounts and their return activity through email clicks.
 Цей запит вираховує акаунти та їх повернення в кліки по листу.
 
 '''sql
--- Запит, який готує коректні дані для когортного аналізу
+#-- Запит, який готує коректні дані для когортного аналізу
 
--- Крок 1: Визначаємо справжню когорту для кожного користувача (дату його "народження")
-WITH UserCohorts AS (
-  SELECT
-    acs.account_id,
-    -- Знаходимо найпершу дату сесії - це і є дата когорти
-    MIN(s.date) AS cohort_date
-  FROM
-    `DA.account_session` AS acs
-  JOIN
-    `DA.session` AS s
-    ON acs.ga_session_id = s.ga_session_id
-  GROUP BY
-    acs.account_id
-)
--- Крок 2: Додаємо до кожного користувача дати його активності (повернень по email)
-SELECT
-  uc.account_id,
-  uc.cohort_date,
-  ev.visit_date AS activity_date
-FROM
-  UserCohorts AS uc
-LEFT JOIN
-  `DA.email_visit` AS ev
-  ON uc.account_id = ev.id_account
-WHERE
-  -- Нам потрібні лише ті записи, де була активність для аналізу повернень
-  ev.visit_date IS NOT NULL
-ORDER BY
-  uc.account_id, activity_date;
+#-- Крок 1: Визначаємо справжню когорту для кожного користувача (дату його "народження")
+# WITH UserCohorts AS (
+# SELECT
+#    acs.account_id,
+#    -- Знаходимо найпершу дату сесії - це і є дата когорти
+#    MIN(s.date) AS cohort_date
+# FROM
+#    `DA.account_session` AS acs
+# JOIN
+#    `DA.session` AS s
+#     ON acs.ga_session_id = s.ga_session_id
+#  GROUP BY
+#     acs.account_id
+#)
+#-- Крок 2: Додаємо до кожного користувача дати його активності (повернень по email)
+# SELECT
+#     uc.account_id,
+#     uc.cohort_date,
+#     ev.visit_date AS activity_date
+# FROM
+#     UserCohorts AS uc
+# LEFT JOIN
+#     `DA.email_visit` AS ev
+#     ON uc.account_id = ev.id_account
+# WHERE
+#  -- Нам потрібні лише ті записи, де була активність для аналізу повернень
+#     ev.visit_date IS NOT NULL
+# ORDER BY
+#      uc.account_id, activity_date;
 '''
 
 ---
