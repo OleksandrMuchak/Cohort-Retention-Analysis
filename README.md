@@ -14,22 +14,41 @@ This query calculates accounts and their return activity through email clicks.
 Цей запит вираховує акаунти та їх повернення в кліки по листу.
 
 '''sql
+WITH UserCohorts AS (
+ SELECT
+   acs.account_id,
+   DATE_TRUNC(MIN(s.date), WEEK) AS cohort_week
+ FROM
+   `DA.account_session` AS acs
+ JOIN
+   `DA.session` AS s
+   ON acs.ga_session_id = s.ga_session_id
+ GROUP BY
+   acs.account_id
+)
 SELECT
-DISTINCT a.id as id_account,
-s.date as account_created_date,
-DATE_ADD(s.date, INTERVAL ev.visit_date day) AS visit_date
-from `DA.account` a
-join `DA.account_session` acs
-on a.id = acs.account_id
-join `DA.session` s
-on acs.ga_session_id = s.ga_session_id
-left join `DA.email_visit` ev
-on a.id = ev.id_account
+ uc.cohort_week,
+ FLOOR(ev.visit_date / 7) AS week_number_since_registration,
+COUNT(DISTINCT uc.account_id) AS active_users
+FROM
+ UserCohorts AS uc
+JOIN
+ `DA.email_visit` AS ev
+ ON uc.account_id = ev.id_account
+WHERE
+ ev.visit_date >= 0
+GROUP BY
+ cohort_week,
+ week_number_since_registration
+ORDER BY
+ cohort_week,
+ week_number_since_registration;
 '''
 
 ---
 
-**Dataset for analysis/[Датасет для аналізу](https://drive.google.com/file/d/1MnecUS4FoGDREN37fd_FCZJkIZ6G66FA/view?usp=sharing)**
+**Dataset for analysis/[Датасет для аналізу]
+(https://drive.google.com/file/d/1BpvsbtUwGb8y5-IRpNQBAl3236z3PQXH/view?usp=sharing)**
 
 ---
 
