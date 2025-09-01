@@ -60,30 +60,10 @@ Based on this dataset, I created a cohort analysis in Tableau. The X-axis displa
 
 ---
 
-**Interactive dashboard in Tableau Public/[Інтерактивний дашборд в Tableau Public](https://public.tableau.com/app/profile/oleksandr.oleksandr7187/viz/_17518209021980/sheet1)**
+**Interactive dashboard in Tableau Public/[Інтерактивний дашборд в Tableau Public](https://public.tableau.com/app/profile/oleksandr.oleksandr7187/viz/WeeklyUserRetentionbyCohort/WeeklyUserRetentionbyCohort)**
 
 ---
 
-## Conclusions and Recommendations
-* **Users churn quickly:** Most newly registered users leave almost immediately and do not return.
-* **Weak initial engagement:** Very few users take meaningful action during their first week after registration.
-* **The first days are critical:** If users aren’t engaged right away, they are likely to leave for good.
 
-## What to do about it?
-* **Welcome new users immediately:** As soon as someone registers, send them a series of helpful emails during their first week.
-* **Re-engage dormant users:** If someone hasn’t logged in for 2–3 weeks, send them an email with an enticing offer to encourage them to return.
-* **Give users a reason to come back:** Ask yourself—why should someone visit your platform every week?
-
-
-## Висновки і рекомендації
-* **Ядро швидко йдуть:** Більшість тих, хто зареєструвався, майже одразу зникають і більше не повертаються.
-* **Початок дуже слабкий:** Майже ніхто нічого не робить у перший тиждень після реєстрації.
-* **Найважливіші – перші дні:** Якщо не зацікавити людину відразу, воно, виходячи за все, піде назавжди.
-
-## Що з цим робити?
-
-* **Негайно вітайте нових людей:** Щойно людина зареєструвалася, одразу ж надішліть їй кілька корисних листів протягом першого тижня.
-* **Нагадайте про себе тим, хто "заснув":** Якщо людина не заходила 2-3 тижні, надішліть їй лист із цікавою пропозицією, щоб вона захотіла повернутися.
-* **Дайте людям причину повертатися:** Подумайте: чому людина має заходити до вас щотижня?
 
 ---
